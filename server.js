@@ -14,7 +14,7 @@ server.get("/", (request, response) => {
 });
 
 // Routes / Endpoints
-server.use("/api/projects", projectRouter);
+server.use("/api/projects", logger, projectRouter);
 // server.use("/api/actions", actionRouter);
 
 // Custom middleware
