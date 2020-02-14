@@ -1,7 +1,7 @@
 const express = require("express");
 
 const Projects = require("./projectModel.js");
-// const Actions = require("./actionModel.js");
+const Actions = require("./actionModel.js");
 
 const router = express.Router();
 
@@ -52,6 +52,30 @@ router.post("/", (request, response) => {
     });
 });
 
+// This POST adds a new action to a project
+router.post("/:id/actions", validateProjectId, (request, response) => {
+  console.log(
+    "This is request.body in router.post('/:id/actions'): ",
+    request.body
+  );
+  const actionWithProjectId = {
+    ...request.body,
+    project_id: request.project.id
+  };
+  Actions.insert(actionWithProjectId)
+    .then(newAction => {
+      console.log(
+        "This is newAction in router.post('/:id/actions'): ",
+        newAction
+      );
+      response.status(201).json(newAction);
+    })
+    .catch(error => {
+      console.log("This is error in router.post('/:id/actions'): ", error);
+      response.status(500).json({ error: "Error adding action" });
+    });
+});
+
 // This PUT updates a specified project - .update(id, changes)
 router.put("/:id", validateProjectId, (request, response) => {
   console.log("This is request.body in router.put('/:id'): ", request.body);
@@ -67,6 +91,21 @@ router.put("/:id", validateProjectId, (request, response) => {
 });
 
 // This DELETE obliterates a specified existing project - .remove(id)
+router.delete("/:id", validateProjectId, (request, response) => {
+  console.log(
+    "This is request.project.id in router.delete('/:id'): ",
+    request.project.id
+  );
+  Projects.remove(request.project.id)
+    .then(count => {
+      console.log("This is counts in router.delete('/:id'): ", count);
+      response.status(200).json({ message: "This project has been nuked" });
+    })
+    .catch(error => {
+      console.log("This is error in router.delete('/:id'): ", error);
+      response.status(500).json({ error: "Error deleting this project" });
+    });
+});
 
 // Custom Middleware
 function validateProjectId(request, response, next) {

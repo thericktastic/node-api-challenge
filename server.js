@@ -1,7 +1,7 @@
 const express = require("express");
 
 const projectRouter = require("./data/helpers/projectRouter");
-// const actionRouter = require("./data/helpers/actionRouter");
+const actionRouter = require("./data/helpers/actionRouter");
 
 const server = express();
 
@@ -14,8 +14,8 @@ server.get("/", (request, response) => {
 });
 
 // Routes / Endpoints
-server.use("/api/projects", logger, projectRouter);
-// server.use("/api/actions", actionRouter);
+server.use("/api/projects", projectRouter);
+server.use("/api/actions", actionRouter);
 
 // Custom middleware
 function logger(request, response, next) {
