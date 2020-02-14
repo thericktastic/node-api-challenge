@@ -1,3 +1,12 @@
+const server = require("./server.js");
+
+const port = 5000;
+
+server.listen(port, () => {
+  console.log(`\n*** Server running on http://localhost:${port} *** \n`);
+});
+
+
 /*
 play this: https://www.youtube.com/watch?v=d-diB65scQU
 
@@ -12,11 +21,3 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
-
-const server = require("./server.js");
-
-const port = 5000;
-
-server.listen(port, () => {
-  console.log(`\n*** Server running on http://localhost:${port} *** \n`);
-});
